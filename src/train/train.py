@@ -15,7 +15,7 @@ def train_yolo():
         epochs=100,
         weights=os.path.join(yolo_path, 'yolov5s.pt'),  # Start with pre-trained YOLOv5 weights
         project=os.path.join(yolo_path, '..', '..', 'results'),
-        name='glioma_vs_no_tumor',
+        name='brain_tumor_detector',
         exist_ok=True
     )
 
