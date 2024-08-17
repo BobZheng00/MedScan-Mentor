@@ -1,13 +1,22 @@
 import torch
+import os
 import subprocess
 
-# Assumes yolov5 directory is parallel to predict.py
-yolov5_detect = 'yolov5/detect.py'
+# Assumes yolov5 directory is in local_model
+yolov5_detect = 'local_model/yolov5/detect.py'
+
+def check_file_exist(path):
+    if not os.path.exists(path):
+        print(f'File {path} does not exist.')
+        exit(1)
+
+check_file_exist(yolov5_detect)
 
 # type can be enum such as brain, lung, etc
 def detect(image_name, image_path, type):
     # change the path
     model_path = f'pre_trained/{type}_tumor_detector.pt'
+    check_file_exist(model_path)
     command = [
         'python', yolov5_detect,
         '--weights', model_path,
