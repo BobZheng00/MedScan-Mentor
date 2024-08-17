@@ -1,0 +1,9 @@
+# local_model/dataset.yaml
+train: ../../dataset/Train
+val: ../../dataset/Val
+
+# Number of classes
+nc: 4
+
+# Class names
+names: ['glioma', 'no_tumor', 'meningioma', 'pituitary']

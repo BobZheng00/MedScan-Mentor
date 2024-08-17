@@ -1,1 +1,15 @@
 ./RAG/.env
+/.idea
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/sonarlint/issuestore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+/.idea/sonarlint/issuestore/index.pb
+/.idea/sonarlint/securityhotspotstore/8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+/.idea/sonarlint/securityhotspotstore/index.pb
+/.idea/.gitignore
+/.idea/discord.xml
+/.idea/MedScan-Mentor.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/local_model/yolov5/
