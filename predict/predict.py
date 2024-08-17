@@ -1,4 +1,4 @@
-import torch
+# import torch
 import os
 import subprocess
 
@@ -11,11 +11,11 @@ def check_file_exist(path):
         exit(1)
 
 check_file_exist(yolov5_detect)
-
 # type can be enum such as brain, lung, etc
-def detect(image_name, image_path, type):
-    # change the path
-    model_path = f'pre_trained/{type}_tumor_detector.pt'
+def detect(image_name = 'gg (9).jpg', image_path = 'dataset/Val/Glioma/images', type = 'brain'):
+    check_file_exist(image_path)
+    # change the trained model path
+    model_path = f'results/{type}_tumor_detector/weights/best.pt'
     check_file_exist(model_path)
     command = [
         'python', yolov5_detect,
@@ -29,7 +29,10 @@ def detect(image_name, image_path, type):
         raise Exception(f"Error running YOLOv5 detection: {result.stderr}")
     
     # Process the result and return the detected objects as byte array format, can be turned into image
-    output_path = f'yolov5/runs/detect/exp/{image_name}'
+    output_path = f'local_model/yolov5/runs/detect/exp/{image_name}'
+    
     with open(output_path, 'rb') as file:
         byte_array = file.read()
         return byte_array
+
+print(detect())
