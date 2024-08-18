@@ -27,12 +27,21 @@ def get_image_byte_array(results):
     return img_byte_array
 
 def display_studies(username):
-    study = get_all_study(username)
-    study_id = study['_id']
-    study_type = study['type']
-    st.selectbox("Select a study:", [study], format_func=lambda x: f"{study_type} tumor detection - Study ID: {study_id}")
+    studies = get_all_study(username)
+    selections = []
+    for study in studies:
+        study_id = study['_id']
+        study_type = study['type']
+        study_date = study['date']
+        selections.append({'study_id': study_id, 'study_type': study_type, 'study_date': study_date})
+    
+    selected_study = st.selectbox(
+        "Select a study:", selections, 
+        format_func=lambda x: f"{x['study_type']} tumor detection - Study ID: {x['study_id']} - Date: {x['study_date']}",
+    )
+
     if st.button('Display Study'):
-        st.session_state["id"] = study_id
+        st.session_state["id"] = selected_study['study_id']
         st.rerun()
 
 def display_study(id):
