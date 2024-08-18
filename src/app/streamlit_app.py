@@ -4,6 +4,28 @@ import torch
 import numpy as np
 from streamlit_drawable_canvas import st_canvas
 
+import sys
+import os
+import io
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from db.study import *
+from db.query import *
+
+username = 'guest'
+
+def get_image_byte_array(results):
+    # get image instance
+    img = Image.fromarray(np.squeeze(results.render()))
+    
+    # turn image to byte array
+    img_byte_array = io.BytesIO()
+    img.save(img_byte_array, format='PNG')
+    img_byte_array = img_byte_array.getvalue()
+    
+    return img_byte_array
+
 if __name__ == "__main__":
     def load_model():
         inference_model = torch.hub.load(
@@ -89,3 +111,9 @@ if __name__ == "__main__":
             # Display YOLOv5 results
             with col2:
                 st.image(np.squeeze(results.render()), caption="Model Prediction", use_column_width=True)
+
+                correct_byte_array = get_image_byte_array(results)
+                print(correct_byte_array)
+
+                study = Study(uploaded_file.getvalue(), correct_byte_array, student_interpretation, None, None, 'Brain')
+                add_study(username, study)
