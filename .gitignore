@@ -12,3 +12,4 @@
 /.idea/modules.xml
 /.idea/vcs.xml
 /local_model/yolov5/
+/**/*/__pycache__
