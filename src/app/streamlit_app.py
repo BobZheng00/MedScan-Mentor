@@ -4,6 +4,11 @@ import torch
 import numpy as np
 from streamlit_drawable_canvas import st_canvas
 
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
+from RAG.rag import simulate_rag_pipeline
+
 if __name__ == "__main__":
     def load_model():
         inference_model = torch.hub.load(
@@ -37,6 +42,7 @@ if __name__ == "__main__":
     )
 
     col1, col2 = st.columns([1, 1])
+    user_input_bbox = []
 
     # Upload CT Scan Image
     uploaded_file = st.file_uploader("Upload a CT scan image", type=["jpg", "jpeg", "png"])
@@ -67,6 +73,7 @@ if __name__ == "__main__":
                     # Convert to bounding box format (xmin, ymin, xmax, ymax)
                     xmin, ymin = left, top
                     xmax, ymax = left + width, top + height
+                    user_input_bbox = [xmin, ymin, xmax, ymax]
                     st.write(f"Bounding box: (xmin: {xmin}, ymin: {ymin}, xmax: {xmax}, ymax: {ymax})")
 
         # Run YOLO model on the uploaded image
@@ -89,3 +96,15 @@ if __name__ == "__main__":
             # Display YOLOv5 results
             with col2:
                 st.image(np.squeeze(results.render()), caption="Model Prediction", use_column_width=True)
+
+            # Simulate RAG pipeline processing
+            if user_input_bbox:
+                st.write(simulate_rag_pipeline(user_input_bbox,
+                                      [results.pandas().xyxy[0]["xmin"][0],
+                                       results.pandas().xyxy[0]["ymin"][0],
+                                       results.pandas().xyxy[0]["xmax"][0],
+                                       results.pandas().xyxy[0]["ymax"][0]],
+                                      student_interpretation,
+                                      results.pandas().xyxy[0]["name"][0]
+                                      ))
+
