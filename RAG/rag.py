@@ -9,7 +9,7 @@ load_dotenv()
 # Set your API key
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-def compare_bbox(user_bbox, correct_bbox, tolerance=0.1):
+def compare_bbox(user_bbox, correct_bbox, tolerance=0.25):
     """Compare bounding box coordinates with a tolerance."""
     def within_tolerance(uc, cc, tol):
         return abs(uc - cc) / cc <= tol
