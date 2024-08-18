@@ -5,9 +5,27 @@ import numpy as np
 from streamlit_drawable_canvas import st_canvas
 
 import os
+import io
 import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from RAG.rag import simulate_rag_pipeline
+
+from db.study import *
+from db.query import *
+
+username = 'guest'
+
+def get_image_byte_array(results):
+    # get image instance
+    img = Image.fromarray(np.squeeze(results.render()))
+    
+    # turn image to byte array
+    img_byte_array = io.BytesIO()
+    img.save(img_byte_array, format='PNG')
+    img_byte_array = img_byte_array.getvalue()
+    
+    return img_byte_array
+  
 
 if __name__ == "__main__":
     def load_model():
@@ -97,6 +115,7 @@ if __name__ == "__main__":
             with col2:
                 st.image(np.squeeze(results.render()), caption="Model Prediction", use_column_width=True)
 
+
             # Simulate RAG pipeline processing
             if user_input_bbox:
                 st.write(simulate_rag_pipeline(user_input_bbox,
@@ -108,3 +127,9 @@ if __name__ == "__main__":
                                       results.pandas().xyxy[0]["name"][0]
                                       ))
 
+                correct_byte_array = get_image_byte_array(results)
+                print(correct_byte_array)
+
+                study = Study(uploaded_file.getvalue(), correct_byte_array, student_interpretation, None, None, 'Brain')
+                add_study(username, study)
+                
