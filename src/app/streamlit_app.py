@@ -190,7 +190,8 @@ if __name__ == "__main__":
 
                     correct_byte_array = get_image_byte_array(results)
 
-                    study = Study(uploaded_file.getvalue(), [xmin, ymin, xmax, ymax], correct_byte_array, student_interpretation, summary, 'Brain')
+                    study = Study(uploaded_file.getvalue(), [xmin, ymin, xmax, ymax], correct_byte_array, student_interpretation, summary, 'Brain', username)
+
                     add_study(username, study)
     else:
         if "id" in st.session_state and st.session_state["id"]:
