@@ -115,21 +115,21 @@ if __name__ == "__main__":
             with col2:
                 st.image(np.squeeze(results.render()), caption="Model Prediction", use_column_width=True)
 
-
             # Simulate RAG pipeline processing
             if user_input_bbox:
-                st.write(simulate_rag_pipeline(user_input_bbox,
+                summary = simulate_rag_pipeline(user_input_bbox,
                                       [results.pandas().xyxy[0]["xmin"][0],
                                        results.pandas().xyxy[0]["ymin"][0],
                                        results.pandas().xyxy[0]["xmax"][0],
                                        results.pandas().xyxy[0]["ymax"][0]],
                                       student_interpretation,
                                       results.pandas().xyxy[0]["name"][0]
-                                      ))
+                                      )
+                st.write(summary)
 
                 correct_byte_array = get_image_byte_array(results)
                 print(correct_byte_array)
 
-                study = Study(uploaded_file.getvalue(), correct_byte_array, student_interpretation, None, None, 'Brain')
+                study = Study(uploaded_file.getvalue(), correct_byte_array, student_interpretation, summary, 'Brain')
                 add_study(username, study)
                 
