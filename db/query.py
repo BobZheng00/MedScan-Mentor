@@ -34,6 +34,19 @@ def find_from_collection(collection_name, query):
         print(e)
         return None
 
+def find_all_from_collection(collection_name, query):
+    try:
+        create_collection_if_not_exists(collection_name)
+        documents = db[collection_name].find(query)
+        if (documents is None):
+            return None
+        documents = list(documents)
+        for document in documents:
+            document['_id'] = str(document['_id'])
+        return documents
+    except Exception as e:
+        print(e)
+
 def create_collection_if_not_exists(collection_name):
     try:
         collection_names = db.list_collection_names()

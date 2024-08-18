@@ -1,5 +1,6 @@
 from db.query import *
 from bson import ObjectId
+import datetime
 
 class Study:
     def __init__(self, target, cord, correct, interpretation, analysis, type, username):
@@ -10,6 +11,7 @@ class Study:
         self.analysis = analysis
         self.type = type
         self.username = username
+        self.date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     def to_dict(self):
         return {
@@ -19,7 +21,8 @@ class Study:
             "interpretation": self.interpretation,
             "analysis": self.analysis,
             "type": self.type,
-            "username": self.username
+            "username": self.username,
+            "date": self.date
         }
 
     @staticmethod
@@ -31,7 +34,8 @@ class Study:
             dict.get("interpretation", ""),
             dict.get("analysis", ""),
             dict.get("type", ""),
-            dict.get("username", "")
+            dict.get("username", ""),
+            dict.get("date", "")
         )
 
 def add_study(username, data):
@@ -42,7 +46,7 @@ def add_study(username, data):
         print(e)
 
 def get_all_study(username):
-    return find_from_collection("study", {"username": username})
+    return find_all_from_collection("study", {"username": username})
 
 def get_one_study(id):
     return find_from_collection("study", {"_id": ObjectId(id)})
