@@ -1,12 +1,11 @@
 from db.query import *
 
 class Study:
-    def __init__(self, target, correct, interpretation, analysis, summary, type):
+    def __init__(self, target, correct, interpretation, analysis, type):
         self.target = target
         self.correct = correct
         self.interpretation = interpretation
         self.analysis = analysis
-        self.summary = summary
         self.type = type
 
     def to_dict(self):
@@ -15,7 +14,6 @@ class Study:
             "correct": self.correct,
             "interpretation": self.interpretation,
             "analysis": self.analysis,
-            "summary": self.summary,
             "type": self.type
         }
 
@@ -26,7 +24,6 @@ class Study:
             dict.get("correct", ""),
             dict.get("interpretation", ""),
             dict.get("analysis", ""),
-            dict.get("summary", ""),
             dict.get("type", "")
         )
 
