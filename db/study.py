@@ -2,13 +2,14 @@ from db.query import *
 from bson import ObjectId
 
 class Study:
-    def __init__(self, target, cord, correct, interpretation, analysis, type):
+    def __init__(self, target, cord, correct, interpretation, analysis, type, username):
         self.target = target
         self.correct = correct
         self.cord = cord
         self.interpretation = interpretation
         self.analysis = analysis
         self.type = type
+        self.username = username
 
     def to_dict(self):
         return {
@@ -17,7 +18,8 @@ class Study:
             "correct": self.correct,
             "interpretation": self.interpretation,
             "analysis": self.analysis,
-            "type": self.type
+            "type": self.type,
+            "username": self.username
         }
 
     @staticmethod
@@ -28,7 +30,8 @@ class Study:
             dict.get("correct", ""),
             dict.get("interpretation", ""),
             dict.get("analysis", ""),
-            dict.get("type", "")
+            dict.get("type", ""),
+            dict.get("username", "")
         )
 
 def add_study(username, data):
