@@ -25,7 +25,6 @@ def get_image_byte_array(results):
     img_byte_array = img_byte_array.getvalue()
     
     return img_byte_array
-  
 
 if __name__ == "__main__":
     def load_model():
@@ -35,12 +34,12 @@ if __name__ == "__main__":
         )
         return inference_model
 
-    model = load_model()
+    # model = load_model()
 
 
-    def run_inference(image):
-        results = model(image)
-        return results
+    # def run_inference(image):
+    #     results = model(image)
+    #     return results
 
 
     st.title("MedScan Mentor - Tumor Detection and Feedback")
@@ -95,8 +94,8 @@ if __name__ == "__main__":
                     st.write(f"Bounding box: (xmin: {xmin}, ymin: {ymin}, xmax: {xmax}, ymax: {ymax})")
 
         # Run YOLO model on the uploaded image
-        results = run_inference(image)
-        print(results.pandas().xyxy[0])
+        # results = run_inference(image)
+        # print(results.pandas().xyxy[0])
 
         # Interpret results
         # pred_class = results.pandas().xyxy[0]['name'][0] if len(results.pandas().xyxy[0]) > 0 else 'no_tumor'
@@ -110,26 +109,24 @@ if __name__ == "__main__":
         student_interpretation = st.text_area("Enter your interpretation of the CT scan")
 
         # Feedback based on model prediction
-        if st.button("Get Feedback"):
+        # if st.button("Get Feedback"):
             # Display YOLOv5 results
-            with col2:
-                st.image(np.squeeze(results.render()), caption="Model Prediction", use_column_width=True)
+            # with col2:
+            #     st.image(np.squeeze(results.render()), caption="Model Prediction", use_column_width=True)
 
-            # Simulate RAG pipeline processing
-            if user_input_bbox:
-                summary = simulate_rag_pipeline(user_input_bbox,
-                                      [results.pandas().xyxy[0]["xmin"][0],
-                                       results.pandas().xyxy[0]["ymin"][0],
-                                       results.pandas().xyxy[0]["xmax"][0],
-                                       results.pandas().xyxy[0]["ymax"][0]],
-                                      student_interpretation,
-                                      results.pandas().xyxy[0]["name"][0]
-                                      )
-                st.write(summary)
+            # # Simulate RAG pipeline processing
+            # if user_input_bbox:
+            #     summary = simulate_rag_pipeline(user_input_bbox,
+            #                           [results.pandas().xyxy[0]["xmin"][0],
+            #                            results.pandas().xyxy[0]["ymin"][0],
+            #                            results.pandas().xyxy[0]["xmax"][0],
+            #                            results.pandas().xyxy[0]["ymax"][0]],
+            #                           student_interpretation,
+            #                           results.pandas().xyxy[0]["name"][0]
+            #                           )
+            #     st.write(summary)
 
-                correct_byte_array = get_image_byte_array(results)
-                print(correct_byte_array)
+            #     correct_byte_array = get_image_byte_array(results)
 
-                study = Study(uploaded_file.getvalue(), correct_byte_array, student_interpretation, summary, 'Brain')
-                add_study(username, study)
-                
+                # study = Study(uploaded_file.getvalue(), [xmin, ymin, xmax, ymax], correct_byte_array, student_interpretation, summary, 'Brain')
+            #     add_study(username, study)

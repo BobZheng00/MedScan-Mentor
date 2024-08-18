@@ -1,9 +1,11 @@
 from db.query import *
+from bson import ObjectId
 
 class Study:
-    def __init__(self, target, correct, interpretation, analysis, type):
+    def __init__(self, target, cord, correct, interpretation, analysis, type):
         self.target = target
         self.correct = correct
+        self.cord = cord
         self.interpretation = interpretation
         self.analysis = analysis
         self.type = type
@@ -11,6 +13,7 @@ class Study:
     def to_dict(self):
         return {
             "target": self.target,
+            "cord": self.cord,
             "correct": self.correct,
             "interpretation": self.interpretation,
             "analysis": self.analysis,
@@ -21,6 +24,7 @@ class Study:
     def from_dict(dict):
         return Study(
             dict.get("target", ""),
+            dict.get("cord", ""),
             dict.get("correct", ""),
             dict.get("interpretation", ""),
             dict.get("analysis", ""),
@@ -38,4 +42,4 @@ def get_all_study(username):
     return find_from_collection("study", {"username": username})
 
 def get_one_study(id):
-    return find_from_collection("study", {"_id": id})
+    return find_from_collection("study", {"_id": ObjectId(id)})
